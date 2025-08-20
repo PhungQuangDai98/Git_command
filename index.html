@@ -161,7 +161,7 @@
         <div class="max-w-4xl mx-auto">
             <header class="text-center mb-12">
                 <h1 class="text-5xl font-extrabold text-[#e0af68]">Sổ tay lệnh Git</h1>
-                <p class="text-lg mt-2 text-gray-400">Bởi GitHub Education</p>
+                <p class="text-lg mt-2 text-gray-400">Tài liệu này cung cấp giải thích và ví dụ về các lệnh Git cơ bản, giúp bạn dễ dàng hiểu và áp dụng.</p>
             </header>
 
             <div id="command-content" class="space-y-8">
@@ -171,54 +171,182 @@
     </main>
 
     <script>
-        // Dữ liệu nội dung của các lệnh
+        // Data content from command.md converted to JavaScript object
         const commands = [
-    {
-        "id": "setup-init",
-        "title": "SETUP & INIT",
-        "content": "<p class=\"text-gray-400 mb-2\">Hướng dẫn thiết lập thông tin người dùng và khởi tạo kho lưu trữ Git mới.</p><p class=\"text-gray-400 mb-2 mt-6\">Thiết lập thông tin người dùng:</p><pre><code class=\"language-bash\">git config --global user.name \"[firstname lastname]\"\n# Đây là cách bạn được nhận dạng khi xem lại lịch sử phiên bản.\ngit config --global user.email \"[valid-email]\"\n# Đặt địa chỉ email liên kết với mỗi commit.\ngit config --global color.ui auto\n# Tự động thêm màu sắc vào đầu ra của dòng lệnh Git, giúp dễ dàng theo dõi và xem lại.</code></pre><p class=\"text-gray-400 mb-2 mt-6\">Khởi tạo và sao chép kho lưu trữ:</p><pre><code class=\"language-bash\">git init\n# Biến một thư mục hiện có thành kho lưu trữ Git.\ngit clone [url]\n# Tải xuống toàn bộ kho lưu trữ Git từ máy chủ về máy tính cục bộ.</code></pre>"
-    },
-    {
-        "id": "stage-snapshot",
-        "title": "STAGE & SNAPSHOT",
-        "content": "<p class=\"text-gray-400 mb-2\">Quản lý các tệp đã thay đổi và tạo \"snapshot\" lịch sử.</p><pre><code class=\"language-bash\">git status\n# Hiển thị trạng thái kho lưu trữ, các tệp đã thay đổi, đã dàn dựng, chưa theo dõi.\ngit add [file]\n# Thêm tệp đã thay đổi vào khu vực dàn dựng.\n# Ví dụ: git add index.html\ngit reset [file]\n# Bỏ tệp ra khỏi khu vực dàn dựng, giữ thay đổi trong thư mục làm việc.\ngit diff\n# So sánh thay đổi trong thư mục làm việc với phiên bản đã dàn dựng.\ngit diff --staged\n# So sánh thay đổi đã ở trong staging với commit cuối cùng.\ngit commit -m \"[descriptive message]\"\n# Lưu nội dung đã dàn dựng thành commit mới.\n# Ví dụ: git commit -m \"Thêm nút đăng nhập vào trang chủ\"</code></pre>"
-    },
-    {
-        "id": "branch-merge",
-        "title": "BRANCH & MERGE",
-        "content": "<p class=\"text-gray-400 mb-2\">Cách làm việc với nhánh để cô lập và tích hợp thay đổi.</p><pre><code class=\"language-bash\">git branch\n# Liệt kê tất cả nhánh, nhánh hiện tại có dấu *.\ngit branch [branch-name]\n# Tạo nhánh mới từ commit hiện tại.\n# Ví dụ: git branch new-feature\ngit checkout [branch]\n# Chuyển sang nhánh khác, cập nhật thư mục làm việc.\n# Ví dụ: git checkout new-feature\ngit merge [branch]\n# Hợp nhất lịch sử nhánh chỉ định vào nhánh hiện tại.\n# Ví dụ: Khi ở nhánh `main`, chạy `git merge new-feature` để hợp nhất thay đổi từ `new-feature` vào `main`.\ngit log\n# Hiển thị lịch sử commit của nhánh hiện tại.</code></pre>"
-    },
-    {
-        "id": "inspect-compare",
-        "title": "INSPECT & COMPARE",
-        "content": "<p class=\"text-gray-400 mb-2\">Xem lại lịch sử và so sánh các phiên bản tệp hoặc nhánh.</p><pre><code class=\"language-bash\">git log\n# Hiển thị lịch sử commit chi tiết.\ngit log branchB..branchA\n# Hiển thị commit chỉ có trên `branchA` mà không có trên `branchB`.\ngit log --follow [file]\n# Hiển thị lịch sử commit đã thay đổi tệp, kể cả khi đổi tên.\ngit diff branchB...branchA\n# Hiển thị sự khác biệt của nội dung giữa hai nhánh.\ngit show [SHA]\n# Hiển thị thông tin chi tiết commit hoặc tệp.</code></pre>"
-    },
-    {
-        "id": "tracking-path-changes",
-        "title": "TRACKING PATH CHANGES",
-        "content": "<p class=\"text-gray-400 mb-2\">Quản lý việc xóa tệp và thay đổi đường dẫn.</p><pre><code class=\"language-bash\">git rm [file]\n# Xóa tệp và dàn dựng hành động này để commit.\ngit mv [existing-path] [new-path]\n# Đổi tên/di chuyển tệp và tự động dàn dựng thay đổi.\ngit log --stat -M\n# Hiển thị log commit với thống kê và chỉ báo di chuyển đường dẫn.</code></pre>"
-    },
-    {
-        "id": "ignoring-patterns",
-        "title": "IGNORING PATTERNS",
-        "content": "<p class=\"text-gray-400 mb-2\">Ngăn Git theo dõi các tệp không cần thiết.</p><p class=\"text-gray-400 mb-2 mt-6\">Thiết lập tệp bỏ qua toàn hệ thống:</p><pre><code class=\"language-bash\">git config --global core.excludesfile [file]\n# Hữu ích cho các tệp muốn Git bỏ qua trên tất cả kho lưu trữ cục bộ, ví dụ tệp cài đặt trình soạn thảo.</code></pre><p class=\"text-gray-400 mb-2 mt-6\">Bỏ qua tệp cho từng dự án:</p><p class=\"text-gray-400 mb-2\">- Tạo tệp `.gitignore` trong thư mục gốc kho lưu trữ.</p>"
-    },
-    {
-        "id": "share-update",
-        "title": "SHARE & UPDATE",
-        "content": "<p class=\"text-gray-400 mb-2\">Tương tác với kho lưu trữ từ xa để cộng tác.</p><pre><code class=\"language-bash\">git remote add [alias] [url]\n# Thêm kho lưu trữ từ xa với bí danh.\n# Ví dụ: git remote add origin https://github.com/user/repo.git\ngit fetch [alias]\n# Tải về tất cả nhánh và commit mới từ remote.\ngit merge [alias]/[branch]\n# Hợp nhất nhánh từ xa đã fetch vào nhánh hiện tại.\ngit push [alias] [branch]\n# Đẩy commit từ nhánh cục bộ lên remote.\n# Ví dụ: git push origin main\ngit pull\n# Lấy và hợp nhất commit mới từ remote vào nhánh hiện tại.</code></pre>"
-    },
-    {
-        "id": "rewrite-history",
-        "title": "REWRITE HISTORY",
-        "content": "<p class=\"text-gray-400 mb-2\">Thay đổi lịch sử commit. <b>Cẩn thận khi dùng trên commit đã chia sẻ!</b></p><pre><code class=\"language-bash\">git rebase [branch]\n# Tạo lịch sử tuyến tính, sạch sẽ hơn.\ngit reset --hard [commit]\n# Xóa vĩnh viễn các thay đổi chưa commit.</code></pre>"
-    },
-    {
-        "id": "temporary-commits",
-        "title": "TEMPORARY COMMITS",
-        "content": "<p class=\"text-gray-400 mb-2\">Lưu trữ tạm thời các thay đổi chưa sẵn sàng để commit.</p><pre><code class=\"language-bash\">git stash\n# Lưu thay đổi chưa commit và chưa dàn dựng, làm sạch thư mục làm việc.\ngit stash list\n# Hiển thị danh sách các stash đã lưu.\ngit stash pop\n# Áp dụng lại thay đổi từ stash gần nhất và xóa nó khỏi danh sách.\ngit stash drop\n# Xóa stash gần nhất khỏi danh sách.</code></pre>"
-    }
-];
+            {
+                id: 'setup-init',
+                title: '1. Cài đặt & Khởi tạo (SETUP & INIT)',
+                content: `
+                    <p class="text-gray-400 mb-2">Hướng dẫn thiết lập thông tin người dùng và khởi tạo kho lưu trữ Git mới.</p>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Thiết lập tên người dùng:</h3>
+                    <pre><code class="language-bash">git config --global user.name "[firstname lastname]"</code></pre>
+                    <blockquote>Đây là cách bạn được nhận dạng khi xem lại lịch sử phiên bản.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Thiết lập email:</h3>
+                    <pre><code class="language-bash">git config --global user.email "[valid-email]"</code></pre>
+                    <blockquote>Đặt địa chỉ email liên kết với mỗi commit.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Bật màu sắc dòng lệnh:</h3>
+                    <pre><code class="language-bash">git config --global color.ui auto</code></pre>
+                    <blockquote>Tự động thêm màu sắc vào đầu ra của dòng lệnh Git, giúp dễ dàng theo dõi và xem lại.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Khởi tạo kho lưu trữ Git:</h3>
+                    <pre><code class="language-bash">git init</code></pre>
+                    <blockquote>Biến một thư mục hiện có thành kho lưu trữ Git.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Sao chép kho lưu trữ từ xa:</h3>
+                    <pre><code class="language-bash">git clone [url]</code></pre>
+                    <blockquote>Tải xuống toàn bộ kho lưu trữ Git từ máy chủ về máy tính cục bộ.</blockquote>
+                `
+            },
+            {
+                id: 'stage-snapshot',
+                title: '2. Giai đoạn & Ảnh chụp nhanh (STAGE & SNAPSHOT)',
+                content: `
+                    <p class="text-gray-400 mb-2">Quản lý các tệp đã thay đổi và tạo "snapshot" lịch sử.</p>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Kiểm tra trạng thái:</h3>
+                    <pre><code class="language-bash">git status</code></pre>
+                    <blockquote>Hiển thị trạng thái kho lưu trữ, các tệp đã thay đổi, đã dàn dựng, chưa theo dõi.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Thêm tệp vào staging:</h3>
+                    <pre><code class="language-bash">git add [file]</code></pre>
+                    <blockquote>Thêm tệp đã thay đổi vào khu vực dàn dựng. Ví dụ: <code>git add index.html</code></blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Bỏ tệp khỏi staging:</h3>
+                    <pre><code class="language-bash">git reset [file]</code></pre>
+                    <blockquote>Bỏ tệp ra khỏi khu vực dàn dựng, giữ thay đổi trong thư mục làm việc.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">So sánh thay đổi với staging:</h3>
+                    <pre><code class="language-bash">git diff</code></pre>
+                    <blockquote>So sánh thay đổi trong thư mục làm việc với phiên bản đã dàn dựng.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">So sánh thay đổi đã staging với commit cuối:</h3>
+                    <pre><code class="language-bash">git diff --staged</code></pre>
+                    <blockquote>So sánh thay đổi đã ở trong staging với commit cuối cùng.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Tạo commit mới:</h3>
+                    <pre><code class="language-bash">git commit -m "[descriptive message]"</code></pre>
+                    <blockquote>Lưu nội dung đã dàn dựng thành commit mới. Ví dụ: <code>git commit -m "Thêm nút đăng nhập vào trang chủ"</code></blockquote>
+                `
+            },
+            {
+                id: 'branch-merge',
+                title: '3. Nhánh & Hợp nhất (BRANCH & MERGE)',
+                content: `
+                    <p class="text-gray-400 mb-2">Cách làm việc với nhánh để cô lập và tích hợp thay đổi.</p>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Liệt kê nhánh:</h3>
+                    <pre><code class="language-bash">git branch</code></pre>
+                    <blockquote>Liệt kê tất cả nhánh, nhánh hiện tại có dấu <code>*</code>.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Tạo nhánh mới:</h3>
+                    <pre><code class="language-bash">git branch [branch-name]</code></pre>
+                    <blockquote>Tạo nhánh mới từ commit hiện tại. Ví dụ: <code>git branch new-feature</code></blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Chuyển nhánh:</h3>
+                    <pre><code class="language-bash">git checkout [branch]</code></pre>
+                    <blockquote>Chuyển sang nhánh khác, cập nhật thư mục làm việc. Ví dụ: <code>git checkout new-feature</code></blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Hợp nhất nhánh:</h3>
+                    <pre><code class="language-bash">git merge [branch]</code></pre>
+                    <blockquote>Hợp nhất lịch sử nhánh chỉ định vào nhánh hiện tại. Ví dụ: Khi ở nhánh <code>main</code>, chạy <code>git merge new-feature</code> để hợp nhất thay đổi từ <code>new-feature</code> vào <code>main</code>.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Xem lịch sử commit:</h3>
+                    <pre><code class="language-bash">git log</code></pre>
+                    <blockquote>Hiển thị lịch sử commit của nhánh hiện tại.</blockquote>
+                `
+            },
+            {
+                id: 'inspect-compare',
+                title: '4. Kiểm tra & So sánh (INSPECT & COMPARE)',
+                content: `
+                    <p class="text-gray-400 mb-2">Xem lại lịch sử và so sánh các phiên bản tệp hoặc nhánh.</p>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Lịch sử commit chi tiết:</h3>
+                    <pre><code class="language-bash">git log</code></pre>
+                    <blockquote>Hiển thị lịch sử commit chi tiết.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Lịch sử commit giữa hai nhánh:</h3>
+                    <pre><code class="language-bash">git log branchB..branchA</code></pre>
+                    <blockquote>Hiển thị commit chỉ có trên <code>branchA</code> mà không có trên <code>branchB</code>.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Lịch sử commit của một tệp (kể cả đổi tên):</h3>
+                    <pre><code class="language-bash">git log --follow [file]</code></pre>
+                    <blockquote>Hiển thị lịch sử commit đã thay đổi tệp, kể cả khi đổi tên.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">So sánh nội dung giữa hai nhánh:</h3>
+                    <pre><code class="language-bash">git diff branchB...branchA</code></pre>
+                    <blockquote>Hiển thị sự khác biệt của nội dung giữa hai nhánh.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Hiển thị thông tin chi tiết một đối tượng Git:</h3>
+                    <pre><code class="language-bash">git show [SHA]</code></pre>
+                    <blockquote>Hiển thị thông tin chi tiết commit hoặc tệp.</blockquote>
+                `
+            },
+            {
+                id: 'tracking-changes',
+                title: '5. Theo dõi thay đổi đường dẫn (TRACKING PATH CHANGES)',
+                content: `
+                    <p class="text-gray-400 mb-2">Quản lý việc xóa tệp và thay đổi đường dẫn.</p>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Xóa tệp khỏi dự án:</h3>
+                    <pre><code class="language-bash">git rm [file]</code></pre>
+                    <blockquote>Xóa tệp và dàn dựng hành động này để commit.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Đổi tên hoặc di chuyển tệp:</h3>
+                    <pre><code class="language-bash">git mv [existing-path] [new-path]</code></pre>
+                    <blockquote>Đổi tên/di chuyển tệp và tự động dàn dựng thay đổi.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Hiển thị log commit kèm thống kê di chuyển tệp:</h3>
+                    <pre><code class="language-bash">git log --stat -M</code></pre>
+                    <blockquote>Hiển thị log commit với thống kê và chỉ báo di chuyển đường dẫn.</blockquote>
+                `
+            },
+            {
+                id: 'ignoring-patterns',
+                title: '6. Bỏ qua các mẫu (IGNORING PATTERNS)',
+                content: `
+                    <p class="text-gray-400 mb-2">Ngăn Git theo dõi các tệp không cần thiết.</p>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Thiết lập tệp bỏ qua toàn hệ thống:</h3>
+                    <pre><code class="language-bash">git config --global core.excludesfile [file]</code></pre>
+                    <blockquote>Hữu ích cho các tệp muốn Git bỏ qua trên tất cả kho lưu trữ cục bộ, ví dụ tệp cài đặt trình soạn thảo.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Bỏ qua tệp cho từng dự án:</h3>
+                    <blockquote>Tạo tệp <code>.gitignore</code> trong thư mục gốc kho lưu trữ.</blockquote>
+                `
+            },
+            {
+                id: 'share-update',
+                title: '7. Chia sẻ & Cập nhật (SHARE & UPDATE)',
+                content: `
+                    <p class="text-gray-400 mb-2">Tương tác với kho lưu trữ từ xa để cộng tác.</p>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Thêm kho lưu trữ từ xa:</h3>
+                    <pre><code class="language-bash">git remote add [alias] [url]</code></pre>
+                    <blockquote>Thêm kho lưu trữ từ xa với bí danh. Ví dụ: <code>git remote add origin https://github.com/user/repo.git</code></blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Tải về nhánh/commit mới từ remote:</h3>
+                    <pre><code class="language-bash">git fetch [alias]</code></pre>
+                    <blockquote>Tải về tất cả nhánh và commit mới từ remote.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Hợp nhất nhánh từ xa vào nhánh hiện tại:</h3>
+                    <pre><code class="language-bash">git merge [alias]/[branch]</code></pre>
+                    <blockquote>Hợp nhất nhánh từ xa đã fetch vào nhánh hiện tại.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Đẩy commit lên remote:</h3>
+                    <pre><code class="language-bash">git push [alias] [branch]</code></pre>
+                    <blockquote>Đẩy commit từ nhánh cục bộ lên remote. Ví dụ: <code>git push origin main</code></blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Lấy và hợp nhất commit mới từ remote:</h3>
+                    <pre><code class="language-bash">git pull</code></pre>
+                    <blockquote>Lấy và hợp nhất commit mới từ remote vào nhánh hiện tại.</blockquote>
+                `
+            },
+            {
+                id: 'rewrite-history',
+                title: '8. Viết lại lịch sử (REWRITE HISTORY)',
+                content: `
+                    <p class="text-gray-400 mb-2">Thay đổi lịch sử commit. <strong>Cẩn thận khi dùng trên commit đã chia sẻ!</strong></p>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Di chuyển chuỗi commit của nhánh hiện tại:</h3>
+                    <pre><code class="language-bash">git rebase [branch]</code></pre>
+                    <blockquote>Tạo lịch sử tuyến tính, sạch sẽ hơn.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Đặt lại thư mục làm việc và staging về trạng thái commit cụ thể:</h3>
+                    <pre><code class="language-bash">git reset --hard [commit]</code></pre>
+                    <blockquote>Xóa vĩnh viễn các thay đổi chưa commit.</blockquote>
+                `
+            },
+            {
+                id: 'temporary-commits',
+                title: '9. Commit tạm thời (TEMPORARY COMMITS)',
+                content: `
+                    <p class="text-gray-400 mb-2">Lưu trữ tạm thời các thay đổi chưa sẵn sàng để commit.</p>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Lưu trữ thay đổi chưa commit:</h3>
+                    <pre><code class="language-bash">git stash</code></pre>
+                    <blockquote>Lưu thay đổi chưa commit và chưa dàn dựng, làm sạch thư mục làm việc.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Hiển thị danh sách stash:</h3>
+                    <pre><code class="language-bash">git stash list</code></pre>
+                    <blockquote>Hiển thị danh sách các stash đã lưu.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Áp dụng lại thay đổi từ stash gần nhất:</h3>
+                    <pre><code class="language-bash">git stash pop</code></pre>
+                    <blockquote>Áp dụng lại thay đổi từ stash gần nhất và xóa nó khỏi danh sách.</blockquote>
+                    <h3 class="font-bold text-gray-200 mb-2 mt-4">Xóa stash gần nhất:</h3>
+                    <pre><code class="language-bash">git stash drop</code></pre>
+                    <blockquote>Xóa stash gần nhất khỏi danh sách.</blockquote>
+                `
+            }
+        ];
 
         const toc = document.getElementById('toc');
         const content = document.getElementById('command-content');
@@ -301,3 +429,4 @@
     </script>
 </body>
 </html>
+
