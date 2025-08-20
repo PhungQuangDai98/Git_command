@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sổ tay lệnh Git</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1b26;
+            color: #a9b1d6;
+        }
+        .command-card {
+            background-color: #24283b;
+            border: 1px solid #414868;
+        }
+        .command-card h2 {
+            color: #7aa2f7;
+            border-bottom: 1px solid #414868;
+        }
+        .command-card h3 {
+            color: #bb9af7;
+        }
+        code {
+            background-color: #2d3047;
+            color: #ff9e64;
+            padding: 0.2em 0.4em;
+            margin: 0;
+            font-size: 85%;
+            border-radius: 6px;
+        }
+        pre {
+            background-color: #1e1e2e;
+            color: #c0caf5;
+            padding: 1em;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid #414868;
+        }
+        pre code {
+            padding: 0;
+            background: none;
+        }
+        .sidebar {
+            background-color: #1e1e2e;
+            border-right: 1px solid #414868;
+        }
+        .sidebar a {
+            color: #a9b1d6;
+            transition: all 0.2s ease-in-out;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #414868;
+            color: #c0caf5;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #24283b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #414868;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #565f89;
+        }
+        .theme-toggle-btn {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.75rem;
+            border-radius: 9999px;
+            background-color: #3b82f6;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            outline: none;
+        }
+        .theme-toggle-btn:hover {
+            background-color: #2563eb;
+        }
+
+        /* Light Theme */
+        body.light-theme {
+            background-color: #f3f4f6;
+            color: #111827;
+        }
+        body.light-theme .command-card {
+            background-color: #ffffff;
+            border-color: #d1d5db;
+        }
+        body.light-theme .command-card h2 {
+            color: #1d4ed8;
+            border-color: #d1d5db;
+        }
+        body.light-theme .command-card h3 {
+            color: #9333ea;
+        }
+        body.light-theme .code-block, body.light-theme pre {
+            background-color: #e5e7eb;
+            color: #1f2937;
+            border-color: #d1d5db;
+        }
+        body.light-theme .sidebar {
+            background-color: #e5e7eb;
+            border-color: #d1d5db;
+        }
+        body.light-theme .sidebar a {
+            color: #374151;
+        }
+        body.light-theme .sidebar a:hover, body.light-theme .sidebar a.active {
+            background-color: #d1d5db;
+            color: #1f2937;
+        }
+        body.light-theme .text-gray-400 { color: #4b5563; }
+        body.light-theme .text-gray-200 { color: #1f2937; }
+        body.light-theme .text-white { color: #111827; }
+        body.light-theme .text-blue-400 { color: #1d4ed8; }
+        body.light-theme .text-purple-400 { color: #9333ea; }
+        body.light-theme .text-yellow-400 { color: #ca8a04; }
+        body.light-theme .text-green-400 { color: #166534; }
+        body.light-theme .text-gray-300 { color: #111827; }
+        body.light-theme .text-[#e0af68] { color: #c2410c; }
+    </style>
+</head>
+<body class="flex">
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar w-64 h-screen overflow-y-auto fixed top-0 left-0 p-4 text-sm hidden md:block z-10">
+        <h1 class="text-xl font-bold text-center mb-4 text-[#e0af68]">Sổ tay lệnh Git</h1>
+        <nav id="toc" class="space-y-1">
+            <!-- Table of Contents will be generated here by JavaScript -->
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="md:ml-64 p-4 md:p-8 w-full relative">
+        <!-- Nút chuyển đổi chủ đề -->
+        <button id="theme-toggle-btn" class="theme-toggle-btn">
+          <svg id="moon-icon" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+          <svg id="sun-icon" class="h-6 w-6 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        </button>
+        <button id="menu-toggle" class="md:hidden fixed top-4 left-4 z-20 p-2 rounded-md bg-gray-800 text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+        <div class="max-w-4xl mx-auto">
+            <header class="text-center mb-12">
+                <h1 class="text-5xl font-extrabold text-[#e0af68]">Sổ tay lệnh Git</h1>
+                <p class="text-lg mt-2 text-gray-400">Bởi GitHub Education</p>
+            </header>
+
+            <div id="command-content" class="space-y-8">
+                <!-- Command sections will be generated here -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Dữ liệu nội dung của các lệnh
+        const commands = [
+    {
+        "id": "setup-init",
+        "title": "SETUP & INIT",
+        "content": "<p class=\"text-gray-400 mb-2\">Hướng dẫn thiết lập thông tin người dùng và khởi tạo kho lưu trữ Git mới.</p><p class=\"text-gray-400 mb-2 mt-6\">Thiết lập thông tin người dùng:</p><pre><code class=\"language-bash\">git config --global user.name \"[firstname lastname]\"\n# Đây là cách bạn được nhận dạng khi xem lại lịch sử phiên bản.\ngit config --global user.email \"[valid-email]\"\n# Đặt địa chỉ email liên kết với mỗi commit.\ngit config --global color.ui auto\n# Tự động thêm màu sắc vào đầu ra của dòng lệnh Git, giúp dễ dàng theo dõi và xem lại.</code></pre><p class=\"text-gray-400 mb-2 mt-6\">Khởi tạo và sao chép kho lưu trữ:</p><pre><code class=\"language-bash\">git init\n# Biến một thư mục hiện có thành kho lưu trữ Git.\ngit clone [url]\n# Tải xuống toàn bộ kho lưu trữ Git từ máy chủ về máy tính cục bộ.</code></pre>"
+    },
+    {
+        "id": "stage-snapshot",
+        "title": "STAGE & SNAPSHOT",
+        "content": "<p class=\"text-gray-400 mb-2\">Quản lý các tệp đã thay đổi và tạo \"snapshot\" lịch sử.</p><pre><code class=\"language-bash\">git status\n# Hiển thị trạng thái kho lưu trữ, các tệp đã thay đổi, đã dàn dựng, chưa theo dõi.\ngit add [file]\n# Thêm tệp đã thay đổi vào khu vực dàn dựng.\n# Ví dụ: git add index.html\ngit reset [file]\n# Bỏ tệp ra khỏi khu vực dàn dựng, giữ thay đổi trong thư mục làm việc.\ngit diff\n# So sánh thay đổi trong thư mục làm việc với phiên bản đã dàn dựng.\ngit diff --staged\n# So sánh thay đổi đã ở trong staging với commit cuối cùng.\ngit commit -m \"[descriptive message]\"\n# Lưu nội dung đã dàn dựng thành commit mới.\n# Ví dụ: git commit -m \"Thêm nút đăng nhập vào trang chủ\"</code></pre>"
+    },
+    {
+        "id": "branch-merge",
+        "title": "BRANCH & MERGE",
+        "content": "<p class=\"text-gray-400 mb-2\">Cách làm việc với nhánh để cô lập và tích hợp thay đổi.</p><pre><code class=\"language-bash\">git branch\n# Liệt kê tất cả nhánh, nhánh hiện tại có dấu *.\ngit branch [branch-name]\n# Tạo nhánh mới từ commit hiện tại.\n# Ví dụ: git branch new-feature\ngit checkout [branch]\n# Chuyển sang nhánh khác, cập nhật thư mục làm việc.\n# Ví dụ: git checkout new-feature\ngit merge [branch]\n# Hợp nhất lịch sử nhánh chỉ định vào nhánh hiện tại.\n# Ví dụ: Khi ở nhánh `main`, chạy `git merge new-feature` để hợp nhất thay đổi từ `new-feature` vào `main`.\ngit log\n# Hiển thị lịch sử commit của nhánh hiện tại.</code></pre>"
+    },
+    {
+        "id": "inspect-compare",
+        "title": "INSPECT & COMPARE",
+        "content": "<p class=\"text-gray-400 mb-2\">Xem lại lịch sử và so sánh các phiên bản tệp hoặc nhánh.</p><pre><code class=\"language-bash\">git log\n# Hiển thị lịch sử commit chi tiết.\ngit log branchB..branchA\n# Hiển thị commit chỉ có trên `branchA` mà không có trên `branchB`.\ngit log --follow [file]\n# Hiển thị lịch sử commit đã thay đổi tệp, kể cả khi đổi tên.\ngit diff branchB...branchA\n# Hiển thị sự khác biệt của nội dung giữa hai nhánh.\ngit show [SHA]\n# Hiển thị thông tin chi tiết commit hoặc tệp.</code></pre>"
+    },
+    {
+        "id": "tracking-path-changes",
+        "title": "TRACKING PATH CHANGES",
+        "content": "<p class=\"text-gray-400 mb-2\">Quản lý việc xóa tệp và thay đổi đường dẫn.</p><pre><code class=\"language-bash\">git rm [file]\n# Xóa tệp và dàn dựng hành động này để commit.\ngit mv [existing-path] [new-path]\n# Đổi tên/di chuyển tệp và tự động dàn dựng thay đổi.\ngit log --stat -M\n# Hiển thị log commit với thống kê và chỉ báo di chuyển đường dẫn.</code></pre>"
+    },
+    {
+        "id": "ignoring-patterns",
+        "title": "IGNORING PATTERNS",
+        "content": "<p class=\"text-gray-400 mb-2\">Ngăn Git theo dõi các tệp không cần thiết.</p><p class=\"text-gray-400 mb-2 mt-6\">Thiết lập tệp bỏ qua toàn hệ thống:</p><pre><code class=\"language-bash\">git config --global core.excludesfile [file]\n# Hữu ích cho các tệp muốn Git bỏ qua trên tất cả kho lưu trữ cục bộ, ví dụ tệp cài đặt trình soạn thảo.</code></pre><p class=\"text-gray-400 mb-2 mt-6\">Bỏ qua tệp cho từng dự án:</p><p class=\"text-gray-400 mb-2\">- Tạo tệp `.gitignore` trong thư mục gốc kho lưu trữ.</p>"
+    },
+    {
+        "id": "share-update",
+        "title": "SHARE & UPDATE",
+        "content": "<p class=\"text-gray-400 mb-2\">Tương tác với kho lưu trữ từ xa để cộng tác.</p><pre><code class=\"language-bash\">git remote add [alias] [url]\n# Thêm kho lưu trữ từ xa với bí danh.\n# Ví dụ: git remote add origin https://github.com/user/repo.git\ngit fetch [alias]\n# Tải về tất cả nhánh và commit mới từ remote.\ngit merge [alias]/[branch]\n# Hợp nhất nhánh từ xa đã fetch vào nhánh hiện tại.\ngit push [alias] [branch]\n# Đẩy commit từ nhánh cục bộ lên remote.\n# Ví dụ: git push origin main\ngit pull\n# Lấy và hợp nhất commit mới từ remote vào nhánh hiện tại.</code></pre>"
+    },
+    {
+        "id": "rewrite-history",
+        "title": "REWRITE HISTORY",
+        "content": "<p class=\"text-gray-400 mb-2\">Thay đổi lịch sử commit. <b>Cẩn thận khi dùng trên commit đã chia sẻ!</b></p><pre><code class=\"language-bash\">git rebase [branch]\n# Tạo lịch sử tuyến tính, sạch sẽ hơn.\ngit reset --hard [commit]\n# Xóa vĩnh viễn các thay đổi chưa commit.</code></pre>"
+    },
+    {
+        "id": "temporary-commits",
+        "title": "TEMPORARY COMMITS",
+        "content": "<p class=\"text-gray-400 mb-2\">Lưu trữ tạm thời các thay đổi chưa sẵn sàng để commit.</p><pre><code class=\"language-bash\">git stash\n# Lưu thay đổi chưa commit và chưa dàn dựng, làm sạch thư mục làm việc.\ngit stash list\n# Hiển thị danh sách các stash đã lưu.\ngit stash pop\n# Áp dụng lại thay đổi từ stash gần nhất và xóa nó khỏi danh sách.\ngit stash drop\n# Xóa stash gần nhất khỏi danh sách.</code></pre>"
+    }
+];
+
+        const toc = document.getElementById('toc');
+        const content = document.getElementById('command-content');
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+
+        // Tạo mục lục và nội dung từ mảng `commands`
+        commands.forEach(cmd => {
+            // Tạo liên kết trong mục lục
+            const link = document.createElement('a');
+            link.href = `#${cmd.id}`;
+            link.textContent = cmd.title;
+            link.className = 'block py-2 px-3 rounded-md hover:bg-gray-700';
+            link.onclick = () => {
+                if (window.innerWidth < 768) {
+                    sidebar.classList.add('hidden');
+                }
+            };
+            toc.appendChild(link);
+
+            // Tạo thẻ nội dung
+            const card = document.createElement('div');
+            card.id = cmd.id;
+            card.className = 'command-card p-6 rounded-lg shadow-lg';
+            card.innerHTML = `<h2 class="text-2xl font-bold mb-4 pb-2">${cmd.title}</h2>${cmd.content}`;
+            content.appendChild(card);
+        });
+
+        // Chuyển đổi sidebar trên mobile
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+        });
+        
+        // Đánh dấu liên kết đang hoạt động khi cuộn
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const id = entry.target.getAttribute('id');
+                const tocLink = document.querySelector(`#toc a[href="#${id}"]`);
+                if (entry.isIntersecting) {
+                    document.querySelectorAll('#toc a').forEach(link => link.classList.remove('active'));
+                    if (tocLink) {
+                      tocLink.classList.add('active');
+                    }
+                }
+            });
+        }, { rootMargin: "-30% 0px -70% 0px" });
+
+        document.querySelectorAll('.command-card').forEach(section => {
+            observer.observe(section);
+        });
+        
+        // Thêm tính năng chuyển đổi chủ đề
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const body = document.body;
+        const moonIcon = document.getElementById('moon-icon');
+        const sunIcon = document.getElementById('sun-icon');
+
+        function setTheme(theme) {
+          if (theme === 'light') {
+            body.classList.add('light-theme');
+            body.classList.remove('dark-theme');
+            moonIcon.classList.add('hidden');
+            sunIcon.classList.remove('hidden');
+          } else {
+            body.classList.add('dark-theme');
+            body.classList.remove('light-theme');
+            moonIcon.classList.remove('hidden');
+            sunIcon.classList.add('hidden');
+          }
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+          const currentTheme = body.classList.contains('dark-theme') ? 'dark' : 'light';
+          const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+          setTheme(newTheme);
+        });
+        
+        // Mặc định là chủ đề tối
+        setTheme('dark');
+    </script>
+</body>
+</html>
